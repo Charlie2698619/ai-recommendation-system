@@ -3,23 +3,27 @@
 This is a full-stack recommendation engine demo built using FAISS, FastAPI, DynamoDB, S3, and Streamlit.
 
 ## 🎯 Project Goals
-- Recommend items to returning users (based on history)
-- Recommend similar items for anonymous users
+- Deliver intelligent product recommendations to enhance user engagement and increase conversion.
+- Handle both **cold-start (new user)** and **warm-start (known user)** scenarios.
+- Showcase a **production-grade MLOps-ready pipeline** using AWS, Docker, and modern ML tools.
 
-## 🧠 ML Pipeline
-- TF-IDF + MinMaxScaler + PCA for embedding generation
-- FAISS for Approximate Nearest Neighbor (ANN) search
-- Streamlit UI to demo results
+## 📊 Data Source
+- This project uses open-source **RetailRocket** e-commerce datasets:
 
-## 📊 Tech Stack
-| Layer        | Technology         |
-|--------------|--------------------|
-| Backend      | FastAPI, boto3     |
-| Frontend     | Streamlit          |
-| Embedding    | TF-IDF + PCA       |
-| Indexing     | FAISS              |
-| Storage      | S3 + DynamoDB      |
-| Container    | Docker + Compose   |
+- [(https://www.kaggle.com/datasets/retailrocket/ecommerce-dataset)]
+
+## 🧠 Machine Learning Strategy
+
+| Use Case                     | Model Type                   | Inputs Used                                  |
+|-----------------------------|------------------------------|----------------------------------------------|
+| Recommend to returning user | Content-based + history avg  | User interaction history + item embeddings   |
+| Recommend similar items     | Item-to-item content-based   | TF-IDF + numeric embeddings similarity       |
+
+- **TF-IDF**: Vectorize all item text attributes.
+- **MinMaxScaler**: Normalize numerical attributes.
+- **PCA**: Reduce dimensions to improve FAISS performance.
+- **FAISS**: Fast similarity search for embedding-based recommendations.
+
 
 ## 🔄 Workflow
 1. Upload user events to S3 (data lake)
@@ -28,6 +32,54 @@ This is a full-stack recommendation engine demo built using FAISS, FastAPI, Dyna
 4. Generate item embeddings
 5. Train FAISS index and upload to S3
 6. Launch API + Streamlit for recommendation
+
+'''text
+              +-------------+
+              |   Streamlit |
+              +------+------+
+                     |
+         +-----------v------------+
+         |     FastAPI (uvicorn)  |
+         +-----------+------------+
+                     |
+        +------------v------------+
+        |     FAISS + Pickle Map  | <----+
+        +-------------------------+      |
+                                        |
++----------------+         +------------v------------+
+|   S3 (Parquet) | <-------+  item_embeddings.py      |
++----------------+         +-------------------------+
+                                        |
+                          +-------------v-------------+
+                          |  train_faiss_index.py     |
+                          +---------------------------+
+                                        |
+                          +-------------v-------------+
+                          |  DynamoDB (user logs)     |
+                          +---------------------------+
+
+
+
+## 🧪 Accuracy Evaluation
+
+This system uses offline evaluation for personalized recommendations.
+
+📊 Evaluation Methodology
+
+- Holdout last interaction per user (temporal split)
+- Store training/test sets (earlier vs. recent interactions)
+- Generate top-K recommendations for each user
+- Calculate Precision@K and Recall@K metrics
+- Filter valid users (present in both train/test)
+- Automate evaluation pipeline for reproducibility
+
+📈 Key Metrics
+
+- Precision@K: Proportion of recommended items in top K that are relevant
+- Recall@K: Proportion of relevant items captured in top K recommendations
+- User Coverage: Percentage of users with valid recommendations
+
+
 
 ## 🧪 How to Run
 ### 1. Clone the repo
