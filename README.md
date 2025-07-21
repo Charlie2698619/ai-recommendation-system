@@ -62,6 +62,6 @@ docker-compose up --build
 
 ## 📷 Screenshots
 
-*Add screenshots of Streamlit app and FastAPI Swagger UI.*
+<img width="807" height="670" alt="image" src="https://github.com/user-attachments/assets/1289e798-8337-4b9f-b6b2-183c4f0e5057" />
 
 
