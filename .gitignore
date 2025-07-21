@@ -1,0 +1,69 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environment and dependency
+.env
+*.env
+*.venv/
+.venv/
+env/
+venv/
+Pipfile.lock
+poetry.lock
+
+# AWS credentials or SAM build
+.aws/
+.aws-sam/
+.sam/
+dist/
+function.zip
+*.pem
+*.key
+*.crt
+
+# VS Code / PyCharm
+.vscode/
+.idea/
+
+# Logs
+*.log
+*.out
+*.err
+
+# Data artifacts and embeddings
+*.npy
+*.pkl
+*.parquet
+*.csv
+*.json
+*.bin
+
+# ML output files
+ML/faiss_index.bin
+ML/item_embeddings.npy
+ML/itemid_map.pkl
+
+# RetailRocket raw data
+retailrocket_data/*.csv
+
+# SAM or CloudFormation build artifacts
+event.json
+response.json
+samconfig.toml
+
+# Installer/cache files
+install/
+build/
+*.egg-info/
+
+# Docker
+dockerignore
+*.lock
+Dockerfile
+docker-compose.override.yaml
+
+# Mac/Linux/Windows system files
+.DS_Store
+Thumbs.db
