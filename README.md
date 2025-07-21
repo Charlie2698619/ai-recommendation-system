@@ -33,32 +33,6 @@ This is a full-stack recommendation engine demo built using FAISS, FastAPI, Dyna
 5. Train FAISS index and upload to S3
 6. Launch API + Streamlit for recommendation
 
-'''text
-              +-------------+
-              |   Streamlit |
-              +------+------+
-                     |
-         +-----------v------------+
-         |     FastAPI (uvicorn)  |
-         +-----------+------------+
-                     |
-        +------------v------------+
-        |     FAISS + Pickle Map  | <----+
-        +-------------------------+      |
-                                        |
-+----------------+         +------------v------------+
-|   S3 (Parquet) | <-------+  item_embeddings.py      |
-+----------------+         +-------------------------+
-                                        |
-                          +-------------v-------------+
-                          |  train_faiss_index.py     |
-                          +---------------------------+
-                                        |
-                          +-------------v-------------+
-                          |  DynamoDB (user logs)     |
-                          +---------------------------+
-
-
 
 ## 🧪 Accuracy Evaluation
 
